@@ -231,16 +231,16 @@ public class PedidoService {
         }
         pedido.getHistorialEstados().add(historial);
 
+        // REEMPLAZAR por esto (un solo save, flag seteado antes):
+        if (nuevoEstado == EstadoPedido.CONFIRMADO) {
+        pedido.setEventoPublicado(true);
+        }
+
         Pedido actualizado = pedidoRepository.save(pedido);
         log.info("Pedido ID={} cambió de {} a {}", pedidoId, estadoActual, nuevoEstado);
 
-        /*----------------------------RABBITMQ---------------------------------------------------------- */
-        // Publicar evento en RabbitMQ cuando el estado sea CONFIRMADO
         if (nuevoEstado == EstadoPedido.CONFIRMADO) {
             eventPublisher.publicarPedidoCreado(actualizado);
-            actualizado.setEventoPublicado(true);
-            pedidoRepository.save(actualizado);
-
             log.info("Evento pedido.creado publicado para pedido ID={}", actualizado.getId());
         }
         return mapToResponse(actualizado);
