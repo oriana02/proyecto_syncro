@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthService {
 
-    private final UsuarioRepository usuarioRepository;
-    private final EmpresaRepository empresaRepository;
+    private UsuarioRepository usuarioRepository;
+    private EmpresaRepository empresaRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
     /**

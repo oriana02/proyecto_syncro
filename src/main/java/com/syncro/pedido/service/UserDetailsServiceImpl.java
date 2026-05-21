@@ -9,7 +9,6 @@ import com.syncro.pedido.repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
 
-
 /**
  * Implementación de UserDetailsService requerida por Spring Security.
  *
@@ -29,18 +28,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     /**
      * Carga el usuario desde la base de datos usando su email. Spring Security
      * llama a este método automáticamente durante: - La validación del token
      * JWT en JwtAuthFilter - El proceso de login en AuthenticationManager
      *
-     * param email identificador del usuario (usado como username)
-     * return UserDetails con los datos del usuario para Spring Security
-     * throws UsernameNotFoundException si no existe el usuario → HTTP 401
+     * param email identificador del usuario (usado como username) return
+     * UserDetails con los datos del usuario para Spring Security throws
+     * UsernameNotFoundException si no existe el usuario → HTTP 401
      */
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return usuarioRepository.findByEmail(email)

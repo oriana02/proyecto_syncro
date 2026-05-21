@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PedidoEventPublisher {
 
-    private final RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     public void publicarPedidoCreado(Pedido pedido) {
         // Construir el evento con los datos que necesita inventario

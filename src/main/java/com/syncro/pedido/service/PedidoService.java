@@ -44,21 +44,17 @@ import lombok.extern.slf4j.Slf4j;
  * Gestionar las transiciones de estado del pedido - Consultar pedidos
  * individuales o por historial de empresa - Mapear entidades a DTOs de
  * respuesta
- *
- * Nota sobre RabbitMQ: La publicación de eventos (pedido.creado) está preparada
- * pero desactivada por ahora. Se integrará en una siguiente etapa una vez que
- * el backend funcione correctamente de forma aislada.
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PedidoService {
 
-    private final PedidoRepository pedidoRepository;
-    private final EmpresaRepository empresaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private PedidoRepository pedidoRepository;
+    private EmpresaRepository empresaRepository;
+    private UsuarioRepository usuarioRepository;
 
-    private final PedidoEventPublisher eventPublisher;
+    private PedidoEventPublisher eventPublisher;
 
     private static final Map<EstadoPedido, Set<EstadoPedido>> TRANSICIONES_VALIDAS = Map.of(
             EstadoPedido.PENDIENTE, EnumSet.of(EstadoPedido.CONFIRMADO, EstadoPedido.CANCELADO),
@@ -179,12 +175,6 @@ public class PedidoService {
      *
      * Valida que la transición sea válida según las reglas de negocio. Registra
      * el cambio en el historial con fecha, actor y motivo.
-     *
-     * Nota RabbitMQ (pendiente para Etapa 2): Cuando el pedido pase a
-     * CONFIRMADO, aquí se publicará el evento "pedido.creado" para que
-     * MS-Inventario descuente stock y MS-Envíos genere el despacho
-     * automáticamente.
-     *
      * param pedidoId ID del pedido a actualizar param request nuevo estado y
      * motivo opcional return PedidoResponse con el pedido actualizado
      */

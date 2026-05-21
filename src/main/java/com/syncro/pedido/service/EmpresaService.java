@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmpresaService {
 
-    private final EmpresaRepository empresaRepository;
+    private EmpresaRepository empresaRepository;
 
     public EmpresaResponse crear(EmpresaRequest request) {
 
